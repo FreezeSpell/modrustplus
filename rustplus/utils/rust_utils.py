@@ -229,7 +229,7 @@ def convert_xy_to_grid(
     corrected_map_size = _get_corrected_map_size(map_size)
 
     grid_pos_letters = _get_grid_x(coords[0])
-    grid_pos_number = str(int(_get_grid_y(coords[1], corrected_map_size)))
+    grid_pos_number = str(int(_get_grid_y(coords[1], map_size)))
 
     return HackyBackwardsCompatCoordClass(grid_pos_letters, grid_pos_number)
 
