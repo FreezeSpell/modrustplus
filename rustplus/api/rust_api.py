@@ -91,7 +91,7 @@ class RustSocket(BaseRustSocket):
         await self._handle_ratelimit(2)
 
         app_send_message = AppSendMessage()
-        app_send_message.message = str(message)
+        app_send_message.message = "[Cerberus] " + str(message)
 
         app_request = self._generate_protobuf()
         app_request.send_team_message = app_send_message
