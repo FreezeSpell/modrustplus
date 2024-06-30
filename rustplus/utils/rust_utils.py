@@ -156,6 +156,25 @@ def entity_type_to_string(id) -> str:
         return "Storage Monitor"
     else:
         raise ValueError("Not Valid type")
+    
+
+def event_type_to_name(type) -> str:
+    if type == 1:
+        return "Player"
+    elif type == 2:
+        return "Explosion"
+    elif type == 3:
+        return "Vending Machine"
+    elif type == 4:
+        return "CH47 Chinook"
+    elif type == 5:
+        return "Cargo Ship"
+    elif type == 6:
+        return "Locked Crate"
+    elif type == 7:
+        return "Generic Radius"
+    elif type == 8:
+        return "Patrol Helicopter"
 
 
 def _get_grid_x(x):
@@ -223,13 +242,23 @@ class HackyBackwardsCompatCoordClass:
         return self.__repr__()
 
 
-def convert_xy_to_grid(
-    coords: tuple, map_size: float, catch_out_of_bounds: bool = True
-) -> HackyBackwardsCompatCoordClass:
-    corrected_map_size = _get_corrected_map_size(map_size)
+def convert_xy_to_grid(coords: tuple, map_size: float, catch_out_of_bounds: bool = True) -> HackyBackwardsCompatCoordClass:
+    if _is_outside_grid_system(coords[0], coords[1], map_size):
+        direction = ""
+        if coords[1] < 0:
+            direction += "South"
+        elif coords[1] > map_size:
+            direction += "North"
+        if coords[0] < 0:
+            direction += "West"
+        elif coords[0] > map_size:
+            direction += "East"
+        
+        return direction if direction else "Out of bounds"
 
+    corrected_map_size = _get_corrected_map_size(map_size)
     grid_pos_letters = _get_grid_x(coords[0])
-    grid_pos_number = str(int(_get_grid_y(coords[1], map_size)))
+    grid_pos_number = str(int(_get_grid_y(coords[1], corrected_map_size)))
 
     return HackyBackwardsCompatCoordClass(grid_pos_letters, grid_pos_number)
 
